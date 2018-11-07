@@ -67,5 +67,17 @@ module.exports = {
         }
       );
     });
+  },
+
+  getTaskByStatus(status) {
+    return new Promise((resolve, reject) => {
+      const tasks = Task.find({ status: status });
+
+      if (!tasks) {
+        reject("Nenhuma task com o status informado foi encontrada");
+      } else {
+        resolve(tasks);
+      }
+    });
   }
 };

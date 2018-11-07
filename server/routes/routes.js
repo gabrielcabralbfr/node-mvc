@@ -10,7 +10,7 @@ router.get("/:resource", (req, res) => {
   const service = Services[resource];
 
   if (!service) {
-    res.json({ status: 400, error: "Resource not found" });
+    res.json({ status: 404, error: "Resource not found" });
     res.end();
     return;
   }
@@ -23,7 +23,37 @@ router.get("/:resource", (req, res) => {
   });
 });
 
-// POST api/
+// GET api/task/status
+router.get("/:resource/:status", (req, res) => {
+  const resource = req.params.resource;
+  const status = req.params.status;
+
+  const service = Services[resource];
+
+  if (!service || !status) {
+    res.json({ status: 404, error: "Resource or status not found" });
+    res.end();
+    return;
+  }
+
+  service
+    .getTaskByStatus(status)
+    .then(response => {
+      res.json({
+        status: 200,
+        data: response
+      });
+      res.end();
+      return;
+    })
+    .catch(error => {
+      res.json({ status: 204 });
+      res.end();
+      return;
+    });
+});
+
+// POST api/task/create
 router.post("/:resource/create", (req, res) => {
   const resource = req.params.resource;
 
@@ -33,13 +63,17 @@ router.post("/:resource/create", (req, res) => {
     res.json({ status: 404, error: "Resource not found" });
     return;
   }
-  service.store(req, res).then(() => {
+  service.store(req, res).then(response => {
+    res.json({
+      status: 201,
+      data: response
+    });
     res.end();
     return;
   });
 });
 
-// DELETE api/
+// DELETE api/task/delete/1
 router.delete("/:resource/delete/:id", (req, res) => {
   const resource = req.params.resource;
 
@@ -55,7 +89,7 @@ router.delete("/:resource/delete/:id", (req, res) => {
   });
 });
 
-// PUT api/
+// PUT api/task/update/1
 router.put("/:resource/update/:id", (req, res) => {
   const resource = req.params.resource;
 
@@ -84,6 +118,7 @@ router.put("/:resource/update/:id", (req, res) => {
     });
 });
 
+// PATCH api/task/complete/1
 router.patch("/:resource/complete/:id", (req, res) => {
   var resource = req.params.resource;
   var service = Services[resource];
