@@ -17,6 +17,14 @@
   },
   "homepage": "https://github.com/gabrielcabralbfr/mean-app#readme",
   "devDependencies": {
-    "@angular/cli": "^7.0.4"
+    "@angular/cli": "^7.0.4",
+    "express": "^4.16.4"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
+    "mongodb": "^3.1.8",
+    "mongoose": "^5.3.9",
+    "socket.io": "^2.1.1"
   }
 }
