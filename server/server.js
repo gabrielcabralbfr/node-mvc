@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 const cors = require('cors')
 
 
-const routes = require("./routes/index");
+const routes = require("./routes/routes");
 const app = express();
 
 
@@ -15,10 +15,6 @@ mongoose.connect("mongodb://gabrielcabralbfr:smvg1234@ds031108.mlab.com:31108/me
   { useNewUrlParser: true }
 );
 
-// app.use((req, res, next) => {
-//   req.io = io;
-//   return next();
-// });
 app.use(cors())
 app.use(express.json());
 app.use("/api", routes);
