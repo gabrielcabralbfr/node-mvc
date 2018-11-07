@@ -3,9 +3,7 @@ const Task = require("../models/Task");
 module.exports = {
   // Obter lista de tasks
   async get(req, res) {
-    const tasks = await Task.find({}).sort({deadline: 1, createdOn: -1});;
-
-    return tasks;
+    return await Task.find({}).sort({ deadline: 1, createdOn: -1 });
   },
   // Salvar task
   async store(req, res) {
@@ -37,7 +35,6 @@ module.exports = {
           description: req.body.description,
           status: req.body.status,
           deadline: req.body.deadline
-          
         }, // Atualizações à serem feitas
         { new: true, upsert: false }, // Options
         (error, result) => {
@@ -55,7 +52,7 @@ module.exports = {
 
   completeTask(id) {
     return new Promise((resolve, reject) => {
-      const task = Task.findOneAndUpdate(
+      Task.findOneAndUpdate(
         { _id: id },
         {
           modifiedOn: new Date(),
@@ -73,7 +70,10 @@ module.exports = {
 
   getTaskByStatus(status) {
     return new Promise((resolve, reject) => {
-      const tasks = Task.find({ status: status }).sort({deadline: 1, createdOn: -1});
+      const tasks = Task.find({ status: status }).sort({
+        deadline: 1,
+        createdOn: -1
+      });
 
       if (!tasks) {
         reject("Nenhuma task com o status informado foi encontrada");
