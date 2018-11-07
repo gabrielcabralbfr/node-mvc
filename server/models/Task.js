@@ -3,7 +3,16 @@ const mongoose = require("mongoose");
 const Task = new mongoose.Schema({
   title: String,
   description: String,
-  status: String,
+  status: {
+    type: String,
+    default: 'pending'
+  },
+
+  deadline: {
+    type: Date,
+    default: null
+  },
+
   createdOn: {
     type: Date,
     default: Date.now
